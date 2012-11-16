@@ -21,6 +21,7 @@ import org.exoplatform.services.log.Log;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+import java.util.Date;
 
 /**
  * DumbJob for executing a defined dumb job.
@@ -42,6 +43,14 @@ public class DumbJob implements Job {
    * @throws JobExecutionException
    */
   public void execute(JobExecutionContext context) throws JobExecutionException {
-    LOG.info("DumbJob is executing...");
+    Date now = new Date();
+     String i = now.toString();
+     LOG.info("DumbJob starts..." + i);
+    try{
+      Thread.sleep(5000);
+    }catch (java.lang.InterruptedException e)
+    {}
+    LOG.info("DumbJob ends..." + i);
+    i = i +1 ;
   }
 }

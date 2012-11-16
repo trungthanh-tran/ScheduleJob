@@ -15,12 +15,12 @@
     <type>org.exoplatform.services.scheduler.impl.JobSchedulerServiceImpl</type>
   </component>
 
- <external-component-plugins>
+ <!--external-component-plugins>
    <target-component>org.exoplatform.services.scheduler.JobSchedulerService</target-component>
     <component-plugin>
       <name>PeriodJob Plugin</name>
-      <set-method>addPeriodJob</set-method>
-      <type>org.exoplatform.services.scheduler.PeriodJob</type>
+      <set-method>addCronJob</set-method>
+      <type>org.exoplatform.services.scheduler.CronJob</type>
       <description>period job configuration</description>
       <init-params>
         <properties-param>
@@ -29,12 +29,49 @@
           <property name="jobName" value="DumbJob"/>
           <property name="groupName" value="DumbJobGroup"/>
           <property name="job" value="org.exoplatform.samples.scheduler.jobs.DumbJob"/>
-          <property name="repeatCount" value="0"/>
-          <property name="period" value="60000"/>
-          <property name="startTime" value="+45"/>
-          <property name="endTime" value=""/>
+          <property name="expression" value="* * * * * ?"/>
         </properties-param>
       </init-params>
     </component-plugin>
- </external-component-plugins>
+ </external-component-plugins-->
+
+<external-component-plugins>
+
+    <target-component>org.exoplatform.services.scheduler.JobSchedulerService</target-component>
+
+    <component-plugin>
+
+      <name>CronJob Plugin</name>
+
+      <set-method>addCronJob</set-method>
+
+      <type>org.exoplatform.services.scheduler.CronJob</type>
+
+      <description>cron job configuration</description>
+
+      <init-params>
+
+        <properties-param>
+
+          <name>cronjob.info</name>
+
+          <description>dumb job executed by cron expression</description>
+
+          <property name="jobName" value="DumbJob"/>
+
+          <property name="groupName" value="DumbJobGroup"/>
+
+          <property name="job" value="org.exoplatform.samples.scheduler.jobs.DumbJob"/>
+
+          <!-- The job will be performed at 10:15am every day -->
+
+          <property name="expression" value="* * * * * ?"/> 
+
+        </properties-param>
+
+      </init-params>
+
+    </component-plugin>
+
+  </external-component-plugins>
 </configuration>
