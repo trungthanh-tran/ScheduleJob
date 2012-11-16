@@ -21,8 +21,9 @@ import org.exoplatform.services.log.Log;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+import org.quartz.SchedulerException;
 import java.util.Date;
-
+import java.util.List;
 /**
  * DumbJob for executing a defined dumb job.
 
@@ -43,6 +44,19 @@ public class DumbJob implements Job {
    * @throws JobExecutionException
    */
   public void execute(JobExecutionContext context) throws JobExecutionException {
+     try
+     { 
+       List<JobExecutionContext> jobs = context.getScheduler().getCurrentlyExecutingJobs();
+       for (JobExecutionContext job : jobs) {
+          if (job.getTrigger().equals(context.getTrigger()) && !job.getJobInstance().equals(this)) {
+             LOG.info("There's another instance running, so leaving" + this);
+             return;
+          }
+       }
+     } catch (SchedulerException ex)
+     {
+       throw new JobExecutionException(ex);
+     }
     Date now = new Date();
      String i = now.toString();
      LOG.info("DumbJob starts..." + i);
